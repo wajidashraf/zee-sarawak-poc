@@ -234,8 +234,26 @@ secured, and promoted using Power Pages and Power Platform tooling.
   canvases, all mocked project pins, the Sarawak boundary path, pin hover
   tooltip, the desktop map grid span, responsive 1/2/4-column behavior, and
   horizontal overflow at all five standard viewports. All 25 route/auth
-  scenarios pass with zero axe violations. The dashboard has not been deployed
-  or pushed to GitHub yet.
+  scenarios pass with zero axe violations.
+- The pre-deployment permissions audit is saved at
+  `docs/permissions-audit.html`. Local permission/site-setting schema
+  validation returned zero findings, and the code-to-CRUD/lookup review passed.
+  Live Dataverse relationship validation could not complete: the current PAC
+  identity received HTTP 403 (`The user is not a member of the organization`)
+  for all six tables. The checked-in exported-solution review independently
+  confirms the three lookup targets used by Project creation. The user reviewed
+  this limitation and explicitly instructed deployment to proceed.
+- The homepage dashboard milestone was deployed successfully to the confirmed
+  `sarawak-poc` website in `DevEnv` on 2026-07-26. PAC processed 171 records
+  across 48 entities and completed all 54 upload events without errors. The
+  deployed bundles include the responsive KPI/chart command centre, Leaflet
+  project map, and bundled Sarawak boundary.
+- `pac pages list` confirmed website record
+  `88ce7959-af6b-4fc6-bd56-1cf3424fc7f1` after the dashboard upload. The plugin
+  activation-status check still returns `Websites API call failed`, so the live
+  URL, Leaflet tile loading, real Dataverse data, and Entra sign-in remain
+  unverified at runtime. No activation or site-cache restart was performed.
+  This dashboard milestone has not been pushed to GitHub yet.
 
 ## Official Power Pages SPA model
 
@@ -504,4 +522,17 @@ requirements and target environment are confirmed.
 - 2026-07-26: Dashboard layout and accessibility validation passed at 375px
   portrait, 812px landscape, 768px tablet, 1024px desktop, and 1440px wide
   desktop. All 25 route/auth scenarios report zero axe violations. This
-  milestone is committed locally but not deployed or pushed to GitHub.
+  milestone was committed locally but had not yet been deployed or pushed to
+  GitHub.
+- 2026-07-26: A pre-deployment table-permissions audit found no local
+  permission, site-setting, web-role, CRUD, or lookup-binding mismatch. Live
+  Dataverse relationship validation was unavailable because the current PAC
+  identity received HTTP 403 as not being an organization member. The user
+  explicitly chose to proceed using the passing local validation and the
+  previously exported solution metadata. The audit report is
+  `docs/permissions-audit.html`.
+- 2026-07-26: The homepage KPI, Chart.js, and Leaflet dashboard was deployed to
+  the confirmed `sarawak-poc` website in `DevEnv`. PAC processed 171 records
+  across 48 entities and completed all 54 events successfully. The website
+  record was verified after upload. Activation status remains unavailable
+  through the Websites API, and no activation or cache restart was performed.
