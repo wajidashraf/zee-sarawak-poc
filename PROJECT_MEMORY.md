@@ -75,11 +75,23 @@ secured, and promoted using Power Pages and Power Platform tooling.
 - A durable `Code-Site-Shell-Header` web template redirects server auth
   callback, failure, and legacy sign-in routes into SPA routes. First-time
   external-account confirmation has a dedicated SPA page.
-- Home contains the initial portal introduction. Projects now reads
-  `wa_project` records through the Power Pages Web API and provides search,
-  Health, Project Type, and Delivery filters; URL-persisted filter state;
-  sortable headers; responsive project cards; and explicit loading, empty,
-  authorization/network-error, and retry states.
+- Home is now an executive portfolio command centre. It has four live KPI
+  cards, three accessible Chart.js portfolio charts, and a Leaflet map showing
+  project pins inside a clearly rendered Sarawak boundary. The desktop
+  analytics area is a four-column, three-row grid: charts occupy the first
+  column and the map spans the other three columns and all three rows.
+- The dashboard loads every paginated `wa_project` record and joins each
+  project to `wa_projectlocation` using the existing location lookup. Exact
+  coordinate fields are `wa_latitude` and `wa_longitude`; records without valid
+  coordinates are counted and omitted from the map rather than assigned
+  invented positions.
+- No new table permission or Web API site-setting scope was required for the
+  dashboard: both tables already have authenticated Global read permission and
+  the user-approved development wildcard field setting.
+- Projects reads `wa_project` records through the Power Pages Web API and
+  provides search, Health, Project Type, and Delivery filters; URL-persisted
+  filter state; sortable headers; responsive project cards; and explicit
+  loading, empty, authorization/network-error, and retry states.
 - Project Details is read-only. Create Project writes the verified project
   fields and uses the exact relationship navigation properties
   `wa_Contractor`, `wa_PrimaryContractor`, and `wa_ProjectLocationID`.
@@ -110,6 +122,15 @@ secured, and promoted using Power Pages and Power Platform tooling.
   Location. The shared client handles mutation anti-forgery tokens, safe
   errors, retries, cancellation, formatted values, explicit `$select`, count,
   and next-link pagination.
+- Dashboard dependencies are Chart.js `4.5.1`, react-chartjs-2 `5.3.1`,
+  Leaflet `1.9.4`, and React Leaflet `5.0.0`. The heavy dashboard is loaded as
+  a separate Vite chunk so anonymous authentication and the base application
+  shell do not eagerly load chart and map code.
+- The bundled Sarawak ADM1 boundary is generated deterministically by
+  `npm run data:boundary` from pinned geoBoundaries data sourced from
+  OpenStreetMap/Wambacher under ODbL 1.0. OpenStreetMap raster tiles are used
+  for the current development map with visible attribution; production tile
+  service capacity, terms, and Content Security Policy still require review.
 - No Dataverse schema changes, Power Automate flow, server logic, or SEO
   configuration were made in this milestone. The already-enabled Microsoft
   Entra ID provider was surfaced in the SPA; no provider secret, client ID, or
@@ -209,6 +230,12 @@ secured, and promoted using Power Pages and Power Platform tooling.
   `https://github.com/wajidashraf/zee-sarawak-poc.git`. Local `master` tracks
   `origin/master`. The user explicitly approved publishing the full repository,
   including environment-specific Power Pages and Dataverse metadata.
+- Homepage dashboard validation covers the four KPI cards, three Chart.js
+  canvases, all mocked project pins, the Sarawak boundary path, pin hover
+  tooltip, the desktop map grid span, responsive 1/2/4-column behavior, and
+  horizontal overflow at all five standard viewports. All 25 route/auth
+  scenarios pass with zero axe violations. The dashboard has not been deployed
+  or pushed to GitHub yet.
 
 ## Official Power Pages SPA model
 
@@ -340,7 +367,8 @@ existing active site.
 - Approval to correct the schema gaps documented in
   `DATAVERSE_SOLUTION_REVIEW.md`
 - Approval of a persisted design system and any available brand assets
-- Map provider, licensing, content security policy, and browser token approach
+- Production Leaflet tile provider, capacity/usage terms, and Content Security
+  Policy allowlist
 - Contact-to-System User mapping for responsible users and "My Actions"
 - Final web roles and least-privilege table-permission matrix
 - Attachment storage, limits, MIME types, retention, and delete policy
@@ -370,6 +398,11 @@ requirements and target environment are confirmed.
 
 - Local Power Pages authentication skill:
   `power-pages@power-platform-skills` / `power-pages:setup-auth`
+- Chart.js: [Responsive charts](https://www.chartjs.org/docs/latest/configuration/responsive.html)
+  and [canvas accessibility](https://www.chartjs.org/docs/latest/general/accessibility.html)
+- React Leaflet: [Introduction](https://react-leaflet.js.org/docs/start-introduction/)
+  and [component API](https://react-leaflet.js.org/docs/api-components/)
+- geoBoundaries: [API and boundary metadata](https://www.geoboundaries.org/api.html)
 
 ## Decision log
 
@@ -462,3 +495,13 @@ requirements and target environment are confirmed.
   history, including environment-specific Power Pages and Dataverse metadata.
   GitHub repository `wajidashraf/zee-sarawak-poc` was configured as `origin`,
   and local `master` was pushed and set to track `origin/master`.
+- 2026-07-26: The homepage was replaced with a responsive portfolio command
+  centre using four KPI cards, three Chart.js charts, and a Leaflet project map.
+  The map joins all paginated projects to exact Dataverse latitude/longitude
+  fields, shows the bundled Sarawak ADM1 boundary, exposes project names on pin
+  hover and project details on tap/click, and provides tabular alternatives for
+  chart and map data.
+- 2026-07-26: Dashboard layout and accessibility validation passed at 375px
+  portrait, 812px landscape, 768px tablet, 1024px desktop, and 1440px wide
+  desktop. All 25 route/auth scenarios report zero axe violations. This
+  milestone is committed locally but not deployed or pushed to GitHub.

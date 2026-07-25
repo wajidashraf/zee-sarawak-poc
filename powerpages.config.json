@@ -6,6 +6,8 @@
   "defaultLandingPage": "index.html",
   "bundleFilePatterns": [
     "assets/index-*.js",
-    "assets/index-*.css"
+    "assets/index-*.css",
+    "assets/PortfolioDashboard-*.js",
+    "assets/PortfolioDashboard-*.css"
   ]
 }
