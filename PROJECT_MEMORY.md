@@ -103,6 +103,25 @@ secured, and promoted using Power Pages and Power Platform tooling.
   before deployment and upgraded when a suitable stable release is available.
 - The development environment and website record are confirmed. A live site URL
   remains unavailable until activation is confirmed and completed.
+- The unmanaged Dataverse solution `SarawakPOC` version `1.0.0.1` was reviewed
+  read-only. Its solution ID is
+  `a04ae5a3-3288-f111-ab0f-6045bd1f5fcb`, publisher is `WajidAshraf`, and
+  customization prefix is `wa`.
+- The solution contains all six approved portal tables plus the additional
+  Plan Designer tables `wa_milestone` and `wa_projectplan`, a model-driven app,
+  a sitemap, and `msdyn_plans` artifacts.
+- Actual table logical names, EntitySetNames, primary columns, relationships,
+  and choice integers are recorded in `DATAVERSE_SOLUTION_REVIEW.md`.
+- The solution isn't yet a complete Power Pages ALM package: it doesn't contain
+  the deployed website, website language, SPA assets, Power Pages site
+  settings, web roles, table permissions, flows, connection references, or
+  environment variables.
+- Material schema gaps were confirmed: missing Project business autonumber,
+  missing Milestone Responsible Person, missing Issue/Risk Action Owner,
+  optional Project links where required, no packaged attachment model,
+  unrestricted progress/coordinate ranges, duplicate Contractor and Site
+  Address fields, ineffective table auditing, and ownership mismatches for
+  Contractor and Project Location.
 
 ## Official Power Pages SPA model
 
@@ -231,8 +250,8 @@ existing active site.
   patterns
 - Target development environment and authorization to inspect existing
   Dataverse metadata
-- Verified table logical names, EntitySetNames, relationships, and choice
-  integer values
+- Approval to correct the schema gaps documented in
+  `DATAVERSE_SOLUTION_REVIEW.md`
 - Approval of a persisted design system and any available brand assets
 - Map provider, licensing, content security policy, and browser token approach
 - Contact-to-System User mapping for responsible users and "My Actions"
@@ -305,3 +324,7 @@ requirements and target environment are confirmed.
   website record `88ce7959-af6b-4fc6-bd56-1cf3424fc7f1` and generated local
   `.powerpages-site/` metadata. Activation and cache restart remain separate,
   unapproved actions.
+- 2026-07-26: Unmanaged solution `SarawakPOC` v`1.0.0.1` was reviewed
+  read-only. The six portal tables and their choice values are verified, and
+  the schema, Power Pages ALM gaps, and three model-driven app dependencies are
+  documented in `DATAVERSE_SOLUTION_REVIEW.md`.
