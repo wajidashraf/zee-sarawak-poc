@@ -1,0 +1,11 @@
+{
+  "$schema": "https://www.schemastore.org/powerpages.config.json",
+  "siteName": "sarawak-poc",
+  "websiteRecordId": "88ce7959-af6b-4fc6-bd56-1cf3424fc7f1",
+  "compiledPath": "dist",
+  "defaultLandingPage": "index.html",
+  "bundleFilePatterns": [
+    "assets/index-*.js",
+    "assets/index-*.css"
+  ]
+}
