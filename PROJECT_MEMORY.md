@@ -147,9 +147,17 @@ secured, and promoted using Power Pages and Power Platform tooling.
   set each fields value to `*`. Six local table-permission YAML files implement
   the approved Global authenticated access. The Power Pages configuration
   validator reports zero errors and warnings.
-- These Web API settings, permissions, and compiled SPA assets have not yet
-  been uploaded after this milestone. Runtime API behavior remains unverified
-  until the user approves deployment to the confirmed DevEnv website.
+- The project portfolio milestone was uploaded successfully to the confirmed
+  `DevEnv` website on 2026-07-26. PAC processed 153 records across 48 entities
+  and completed all 50 upload events without errors. The upload included the
+  compiled SPA, wildcard Web API settings, and Global authenticated table
+  permissions.
+- `pac pages list` confirms website record
+  `88ce7959-af6b-4fc6-bd56-1cf3424fc7f1` remains present as `sarawak-poc`.
+- The plugin activation-status API check still returns `Websites API call
+  failed`, so activation and the live URL remain unverified. No activation or
+  site-cache restart was performed. Runtime Web API behavior remains untested
+  until a live URL is available.
 
 ## Official Power Pages SPA model
 
@@ -370,3 +378,8 @@ requirements and target environment are confirmed.
 - 2026-07-26: Lint, production build, Power Pages permission/settings schema
   validation, and desktop/mobile Playwright + axe checks passed. Deployment and
   live runtime testing remain pending explicit approval.
+- 2026-07-26: Commit `238c4a7` and its generated Power Pages metadata were
+  deployed successfully to `sarawak-poc` in `DevEnv`. PAC completed all 50
+  upload events with no errors. The website record was verified through
+  `pac pages list`; activation status and live runtime testing remain pending
+  because the Websites API activation check failed.
