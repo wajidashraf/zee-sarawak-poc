@@ -1,0 +1,4 @@
+description: Allow all fields for wa_projectmilestone Web API access in the development POC
+id: a3fc4c8e-79b6-4955-a231-06f3f02f2f15
+name: Webapi/wa_projectmilestone/fields
+value: "*"

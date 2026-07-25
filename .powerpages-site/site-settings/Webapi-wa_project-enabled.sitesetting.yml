@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_project table
+id: a79b462e-c359-48e3-b100-897c36163701
+name: Webapi/wa_project/enabled
+value: true

@@ -1,0 +1,4 @@
+description: Allow all fields for wa_projectissueandrisk Web API access in the development POC
+id: 31433a07-a290-47b9-b2c7-c772f8f67c06
+name: Webapi/wa_projectissueandrisk/fields
+value: "*"

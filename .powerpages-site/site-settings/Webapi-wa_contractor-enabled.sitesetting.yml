@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_contractor table
+id: f8dc588d-0005-4f9c-bb8b-e1719e1af9e7
+name: Webapi/wa_contractor/enabled
+value: true

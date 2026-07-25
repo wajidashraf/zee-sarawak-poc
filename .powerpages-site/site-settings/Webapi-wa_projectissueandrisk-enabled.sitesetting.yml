@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_projectissueandrisk table
+id: 270ee837-48d8-44c7-9211-60d476565dd7
+name: Webapi/wa_projectissueandrisk/enabled
+value: true

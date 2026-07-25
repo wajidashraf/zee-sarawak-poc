@@ -8,7 +8,8 @@ export function AppLayout() {
   const mainContentRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    mainContentRef.current?.focus()
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    mainContentRef.current?.focus({ preventScroll: true })
   }, [location.pathname])
 
   return (

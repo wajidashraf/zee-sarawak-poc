@@ -1,0 +1,4 @@
+description: Allow all fields for wa_project Web API access in the development POC
+id: 449de150-3d05-47b8-b214-c2742c1a1595
+name: Webapi/wa_project/fields
+value: "*"

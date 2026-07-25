@@ -1,0 +1,4 @@
+description: Allow all fields for wa_progressupdate Web API access in the development POC
+id: 5fe073b9-8c71-409d-90db-29e9711568bb
+name: Webapi/wa_progressupdate/fields
+value: "*"

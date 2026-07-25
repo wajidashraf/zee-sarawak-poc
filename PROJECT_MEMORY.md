@@ -38,22 +38,41 @@ secured, and promoted using Power Pages and Power Platform tooling.
 - Workspace frontend rules require UI/UX Pro Max for every UI/UX task, a
   persisted design system as the visual source of truth, inspection and reuse
   of existing components before creating new ones, and clean typed React code.
+- For this development POC, the user explicitly approved
+  `Webapi/<table>/fields = *` and Global table-permission scope on all six
+  approved portal tables. This is a development exception to the normal
+  least-privilege field allowlist and must be reviewed before production.
+- Project records are available only to the existing Authenticated Users web
+  role. No project-data permission is attached to Anonymous Users.
+- The project table has Read, Create, and Append To permissions. Contractor and
+  Project Location have Read and Append permissions because they are lookup
+  targets during project creation. The other three portal tables are read-only.
 
 ## Current state
 
 - The original Vite demonstration page and its unused starter assets were
   removed.
-- React Router now provides Home (`/`) and Projects (`/projects`) routes.
+- React Router provides Home (`/`), Projects (`/projects`), Create Project
+  (`/projects/new`), and Project Details (`/projects/:projectId`) routes.
 - `AppLayout` supplies a shared `Header` and `Footer` to every route.
 - The header contains Home and Projects navigation with active-page states.
-- Home contains the initial portal introduction and Projects contains an honest
-  Dataverse-not-connected empty state.
-- Shared semantic design tokens and responsive styles are in `src/index.css`.
+- Home contains the initial portal introduction. Projects now reads
+  `wa_project` records through the Power Pages Web API and provides search,
+  Health, Project Type, and Delivery filters; URL-persisted filter state;
+  sortable headers; responsive project cards; and explicit loading, empty,
+  authorization/network-error, and retry states.
+- Project Details is read-only. Create Project writes the verified project
+  fields and uses the exact relationship navigation properties
+  `wa_Contractor`, `wa_PrimaryContractor`, and `wa_ProjectLocationID`.
+- Shared semantic design tokens, responsive management-dashboard styles, and
+  reusable page-header, filter, feedback, status, progress, and form-field
+  components are in the frontend source.
 - The most recent `npm run lint`, `npm run build`, and `npm run test:ui` passed.
-- Browser validation covers both routes at 1280px desktop and 375px mobile. It
-  verifies shared landmarks, active navigation, 44px navigation targets,
-  horizontal overflow, document titles, headings, and WCAG 2.2 AA with axe.
-- Axe reported zero violations on both routes at both viewports. One automated
+- Browser validation covers all four routes at 375px portrait, 812px
+  landscape, 768px tablet, 1024px desktop, and 1440px wide desktop. It verifies
+  shared landmarks, active navigation, 44px navigation targets, horizontal
+  overflow, document titles, headings, and WCAG 2.2 AA with axe.
+- Axe reported zero violations on all routes at both viewports. One automated
   check remains incomplete on each run and requires normal manual review.
 - Dependencies are installed locally and a `dist/` build exists.
 - Python 3.14.6 and pip 26.1.2 are installed for the current Windows user.
@@ -64,20 +83,22 @@ secured, and promoted using Power Pages and Power Platform tooling.
   command paths were corrected for Codex. The bundled validator passed all 12
   design domains, 22 framework stacks, and the reasoning database. React stack
   lookup and design-system generation were also verified.
-- UI/UX Pro Max was run against the supplied business brief. Its preliminary
-  direction is a professional blue/green, trustworthy, accessible, data-dense
-  dashboard with Lexend headings, Source Sans 3 body text, and subtle motion.
-  No design system has been persisted because user approval is still required.
-  Its generated "Exaggerated Minimalism" style was rejected as a poor fit for
-  dense operational screens.
-- No Dataverse data model changes, authentication, Web API integration, Power
-  Automate flow, server logic, or SEO configuration exist yet.
+- UI/UX Pro Max was run for the project-management workspace. The design system
+  is persisted at `design-system/sarawak-poc/MASTER.md`: professional blue,
+  restrained green accents, IBM Plex Sans with system fallbacks, subtle depth,
+  compact dashboard spacing, accessible focus, and reduced-motion support.
+- Typed Web API integration exists for Project, Contractor, and Project
+  Location. The shared client handles mutation anti-forgery tokens, safe
+  errors, retries, cancellation, formatted values, explicit `$select`, count,
+  and next-link pagination.
+- No Dataverse schema changes, authentication-provider changes, Power Automate
+  flow, server logic, or SEO configuration were made in this milestone.
 - The first Power Pages code-site upload completed successfully in the
   development environment as `sarawak-poc`.
 - Development environment:
   - Name: `DevEnv`
   - Environment ID: `2b4baf42-e625-ee92-ae14-c36d82d1359b`
-  - Dataverse URL: `https://gcp-developer.crm5.dynamics.com/`
+  - PAC organization URL: `https://org38e92500.crm5.dynamics.com/`
   - Website record ID: `88ce7959-af6b-4fc6-bd56-1cf3424fc7f1`
 - PAC processed all 46 first-upload events successfully and generated the
   `.powerpages-site/` deployment metadata.
@@ -122,6 +143,13 @@ secured, and promoted using Power Pages and Power Platform tooling.
   unrestricted progress/coordinate ranges, duplicate Contractor and Site
   Address fields, ineffective table auditing, and ownership mismatches for
   Contractor and Project Location.
+- Twelve local Web API site-setting YAML files enable all six portal tables and
+  set each fields value to `*`. Six local table-permission YAML files implement
+  the approved Global authenticated access. The Power Pages configuration
+  validator reports zero errors and warnings.
+- These Web API settings, permissions, and compiled SPA assets have not yet
+  been uploaded after this milestone. Runtime API behavior remains unverified
+  until the user approves deployment to the confirmed DevEnv website.
 
 ## Official Power Pages SPA model
 
@@ -328,3 +356,17 @@ requirements and target environment are confirmed.
   read-only. The six portal tables and their choice values are verified, and
   the schema, Power Pages ALM gaps, and three model-driven app dependencies are
   documented in `DATAVERSE_SOLUTION_REVIEW.md`.
+- 2026-07-26: UI/UX Pro Max generated and persisted the professional
+  construction/investment management design system in
+  `design-system/sarawak-poc/MASTER.md`.
+- 2026-07-26: The Projects register, Project Details, and Create Project routes
+  were implemented with shared React components and typed Power Pages Web API
+  services for `wa_project`, `wa_contractor`, and `wa_projectlocation`.
+- 2026-07-26: The user explicitly approved wildcard Web API field settings and
+  Global table-permission scope for the development POC. Local configuration
+  now enables all six approved portal tables for Authenticated Users, grants
+  only the Project create/lookup association rights used by the current UI, and
+  grants no anonymous project-data access.
+- 2026-07-26: Lint, production build, Power Pages permission/settings schema
+  validation, and desktop/mobile Playwright + axe checks passed. Deployment and
+  live runtime testing remain pending explicit approval.

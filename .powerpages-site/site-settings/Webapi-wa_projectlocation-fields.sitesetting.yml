@@ -1,0 +1,4 @@
+description: Allow all fields for wa_projectlocation Web API access in the development POC
+id: 83ecad5d-2452-4e09-99b6-16f5ea5fb6d6
+name: Webapi/wa_projectlocation/fields
+value: "*"

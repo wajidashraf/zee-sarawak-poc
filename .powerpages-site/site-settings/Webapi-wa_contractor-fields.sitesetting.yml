@@ -1,0 +1,4 @@
+description: Allow all fields for wa_contractor Web API access in the development POC
+id: db350560-e785-4af9-bc01-ef2430c0eee5
+name: Webapi/wa_contractor/fields
+value: "*"

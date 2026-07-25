@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_progressupdate table
+id: 60aac4b6-cbab-45fe-8c7b-2037fac9444b
+name: Webapi/wa_progressupdate/enabled
+value: true

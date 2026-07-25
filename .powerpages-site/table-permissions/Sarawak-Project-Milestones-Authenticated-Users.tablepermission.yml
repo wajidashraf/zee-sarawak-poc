@@ -1,0 +1,12 @@
+adx_entitypermission_webrole:
+- 12af068d-f308-4b16-ac95-9689cf89a723
+append: false
+appendto: false
+create: false
+delete: false
+entitylogicalname: wa_projectmilestone
+entityname: Sarawak Project Milestones - Authenticated Users
+id: d213d699-6d7c-414c-a0cb-9a670ebf0b30
+read: true
+scope: 756150000
+write: false

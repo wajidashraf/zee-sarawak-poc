@@ -1,0 +1,12 @@
+adx_entitypermission_webrole:
+- 12af068d-f308-4b16-ac95-9689cf89a723
+append: false
+appendto: true
+create: true
+delete: false
+entitylogicalname: wa_project
+entityname: Sarawak Projects - Authenticated Users
+id: 28f3ba25-cd14-4df2-a3e4-a239c7db9765
+read: true
+scope: 756150000
+write: false

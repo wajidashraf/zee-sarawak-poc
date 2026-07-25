@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_projectlocation table
+id: 2ba098d4-fe1c-4a23-b1b4-6ccf56c2327c
+name: Webapi/wa_projectlocation/enabled
+value: true

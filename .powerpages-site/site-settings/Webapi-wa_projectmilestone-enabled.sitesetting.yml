@@ -1,0 +1,4 @@
+description: Enable Web API access for wa_projectmilestone table
+id: 568ecded-95dd-4590-a898-d2fbf66a9ec5
+name: Webapi/wa_projectmilestone/enabled
+value: true

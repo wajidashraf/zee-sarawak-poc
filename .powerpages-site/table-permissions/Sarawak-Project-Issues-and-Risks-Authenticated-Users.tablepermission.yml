@@ -1,0 +1,12 @@
+adx_entitypermission_webrole:
+- 12af068d-f308-4b16-ac95-9689cf89a723
+append: false
+appendto: false
+create: false
+delete: false
+entitylogicalname: wa_projectissueandrisk
+entityname: Sarawak Project Issues and Risks - Authenticated Users
+id: a2e2efc3-bd9a-4fb7-82a7-f9fbe4b39403
+read: true
+scope: 756150000
+write: false

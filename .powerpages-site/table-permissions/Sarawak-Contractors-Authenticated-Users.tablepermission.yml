@@ -1,0 +1,12 @@
+adx_entitypermission_webrole:
+- 12af068d-f308-4b16-ac95-9689cf89a723
+append: true
+appendto: false
+create: false
+delete: false
+entitylogicalname: wa_contractor
+entityname: Sarawak Contractors - Authenticated Users
+id: e0bf9301-2850-4461-8bba-b7e60e340007
+read: true
+scope: 756150000
+write: false
