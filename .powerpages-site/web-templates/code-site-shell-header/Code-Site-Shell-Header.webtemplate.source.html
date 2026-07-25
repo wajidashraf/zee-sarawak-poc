@@ -1,0 +1,31 @@
+<div/>
+<script>
+  // Keep Power Pages server authentication routes inside the SPA experience.
+  (function () {
+    var path = window.location.pathname.toLowerCase();
+    var search = window.location.search;
+    var spaBase = window.location.origin;
+    var redirects = {
+      '/account/login/externallogincallback': '/external-login-confirmation',
+      '/account/login/externalauthenticationfailed': '/login',
+      '/signin': '/login'
+    };
+
+    if (
+      path === '/account/login/externalauthenticationfailed' &&
+      !search
+    ) {
+      window.location.replace(
+        spaBase + '/login?message=external_auth_failed'
+      );
+      return;
+    }
+
+    for (var serverPath in redirects) {
+      if (path === serverPath) {
+        window.location.replace(spaBase + redirects[serverPath] + search);
+        return;
+      }
+    }
+  })();
+</script>

@@ -1,0 +1,4 @@
+description: Keep Dataverse contact fields synchronized with Microsoft Entra ID
+id: 60da70f1-1e13-49b2-9387-8ef7ade2da00
+name: Authentication/OpenIdConnect/AzureAD/LoginClaimsMapping
+value: firstname=given_name,lastname=family_name,emailaddress1=upn

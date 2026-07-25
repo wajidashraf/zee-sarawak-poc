@@ -141,6 +141,13 @@ try {
           mainCount: document.querySelectorAll('main#main-content').length,
           navLabels: navLinks.map((link) => link.textContent?.trim()),
           activeLink: activeLink?.textContent?.trim(),
+          accountTriggerCount: document.querySelectorAll(
+            'button.auth-menu__trigger',
+          ).length,
+          accountTriggerHeight:
+            document
+              .querySelector('button.auth-menu__trigger')
+              ?.getBoundingClientRect().height ?? 0,
           minNavLinkHeight: Math.min(
             ...navLinks.map((link) => link.getBoundingClientRect().height),
           ),
@@ -200,6 +207,12 @@ try {
       if (structure.activeLink !== route.activeLink) {
         structuralIssues.push('active navigation state')
       }
+      if (structure.accountTriggerCount !== 1) {
+        structuralIssues.push('signed-in account menu')
+      }
+      if (structure.accountTriggerHeight < 44) {
+        structuralIssues.push('account menu touch target')
+      }
       if (structure.minNavLinkHeight < 44) {
         structuralIssues.push('navigation touch target')
       }
@@ -222,6 +235,129 @@ try {
         accessibility,
       })
     }
+
+    await page.goto(`${baseUrl}/?auth=anonymous`, {
+      waitUntil: 'networkidle',
+      timeout: 15_000,
+    })
+    await page.getByRole('dialog', { name: 'Sign in to continue' }).waitFor()
+
+    if (
+      screenshotDir &&
+      ['mobile', 'wide-desktop'].includes(viewport.name)
+    ) {
+      await page.screenshot({
+        fullPage: true,
+        path: path.join(screenshotDir, `sign-in-${viewport.name}.png`),
+      })
+    }
+
+    const signedOutStructure = await page.evaluate(() => {
+      const button = document.querySelector('button.microsoft-sign-in-button')
+      return {
+        title: document.title,
+        dialogCount: document.querySelectorAll(
+          '[data-testid="sign-in-dialog"]',
+        ).length,
+        heading: document.querySelector('[role="dialog"] h1')?.textContent?.trim(),
+        signInLabel: button?.textContent?.trim(),
+        signInButtonHeight: button?.getBoundingClientRect().height ?? 0,
+        signInButtonFocused: document.activeElement === button,
+        protectedMainCount: document.querySelectorAll('main#main-content').length,
+        hasHorizontalOverflow:
+          document.documentElement.scrollWidth >
+          document.documentElement.clientWidth,
+      }
+    })
+
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    const reducedMotionApplied = await page.evaluate(
+      () =>
+        getComputedStyle(document.querySelector('.sign-in-dialog')).animationName ===
+        'none',
+    )
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+
+    await page.addScriptTag({ content: axeCore.source })
+    const signedOutAccessibility = await page.evaluate(async () => {
+      const audit = await window.axe.run(document, {
+        runOnly: {
+          type: 'tag',
+          values: [
+            'wcag2a',
+            'wcag2aa',
+            'wcag21a',
+            'wcag21aa',
+            'wcag22aa',
+          ],
+        },
+      })
+      return {
+        violations: audit.violations.map((violation) => ({
+          id: violation.id,
+          impact: violation.impact,
+          description: violation.description,
+        })),
+        passes: audit.passes.length,
+        incomplete: audit.incomplete.length,
+      }
+    })
+
+    const signedOutIssues = []
+    if (
+      signedOutStructure.title !==
+      'Sign in — Sarawak Project Monitoring Portal'
+    ) {
+      signedOutIssues.push('sign-in document title')
+    }
+    if (signedOutStructure.dialogCount !== 1) {
+      signedOutIssues.push('single sign-in dialog')
+    }
+    if (signedOutStructure.heading !== 'Sign in to continue') {
+      signedOutIssues.push('sign-in heading')
+    }
+    if (signedOutStructure.signInLabel !== 'Sign in with Microsoft') {
+      signedOutIssues.push('Microsoft sign-in action')
+    }
+    if (signedOutStructure.signInButtonHeight < 44) {
+      signedOutIssues.push('sign-in touch target')
+    }
+    if (!signedOutStructure.signInButtonFocused) {
+      signedOutIssues.push('sign-in initial focus')
+    }
+    if (!reducedMotionApplied) {
+      signedOutIssues.push('reduced-motion dialog behavior')
+    }
+    if (signedOutStructure.protectedMainCount !== 0) {
+      signedOutIssues.push('protected app shell mounted while signed out')
+    }
+    if (signedOutStructure.hasHorizontalOverflow) {
+      signedOutIssues.push('sign-in horizontal overflow')
+    }
+
+    const seriousSignedOutViolations = signedOutAccessibility.violations.filter(
+      (violation) =>
+        violation.impact === 'critical' || violation.impact === 'serious',
+    )
+    if (
+      signedOutIssues.length > 0 ||
+      seriousSignedOutViolations.length > 0
+    ) {
+      failed = true
+    }
+
+    results.push({
+      viewport: viewport.name,
+      route: 'auth:anonymous',
+      structuralIssues: signedOutIssues,
+      accessibility: signedOutAccessibility,
+    })
+
+    await page
+      .getByRole('button', { name: 'Sign in with Microsoft' })
+      .click()
+    await page.waitForURL((url) => !url.searchParams.has('auth'))
+    await page.locator('header.site-header').waitFor()
 
     await page.close()
   }

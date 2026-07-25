@@ -116,3 +116,31 @@ export function SortIcon(props: IconProps) {
     </svg>
   )
 }
+
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <svg {...commonProps} {...props}>
+      <path
+        d="m7 9.5 5 5 5-5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}
+
+export function SignOutIcon(props: IconProps) {
+  return (
+    <svg {...commonProps} {...props}>
+      <path
+        d="M14 5.5V4.8A1.8 1.8 0 0 0 12.2 3H5.8A1.8 1.8 0 0 0 4 4.8v14.4A1.8 1.8 0 0 0 5.8 21h6.4a1.8 1.8 0 0 0 1.8-1.8v-.7M10 12h10m0 0-3.5-3.5M20 12l-3.5 3.5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  )
+}

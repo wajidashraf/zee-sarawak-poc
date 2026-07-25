@@ -1,0 +1,4 @@
+description: Map Microsoft Entra ID claims to Dataverse contact fields on first sign-in
+id: 19e30259-2654-4ebd-a286-b298fe24d456
+name: Authentication/OpenIdConnect/AzureAD/RegistrationClaimsMapping
+value: firstname=given_name,lastname=family_name,emailaddress1=upn

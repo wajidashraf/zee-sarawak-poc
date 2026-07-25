@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { AuthButton } from '../auth/AuthButton'
 
 const navigationItems = [
   { label: 'Home', to: '/' },
@@ -23,20 +24,23 @@ export function Header() {
           </span>
         </NavLink>
 
-        <nav aria-label="Primary navigation" className="primary-nav">
-          {navigationItems.map((item) => (
-            <NavLink
-              className={({ isActive }) =>
-                `primary-nav__link${isActive ? ' primary-nav__link--active' : ''}`
-              }
-              end={item.to === '/'}
-              key={item.to}
-              to={item.to}
-            >
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="site-header__actions">
+          <nav aria-label="Primary navigation" className="primary-nav">
+            {navigationItems.map((item) => (
+              <NavLink
+                className={({ isActive }) =>
+                  `primary-nav__link${isActive ? ' primary-nav__link--active' : ''}`
+                }
+                end={item.to === '/'}
+                key={item.to}
+                to={item.to}
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+          <AuthButton />
+        </div>
       </div>
     </header>
   )

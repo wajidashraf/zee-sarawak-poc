@@ -199,6 +199,13 @@ p {
   gap: var(--space-2);
 }
 
+.site-header__actions {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .primary-nav__link {
   display: inline-flex;
   min-height: 2.75rem;
@@ -241,6 +248,433 @@ p {
 .site-main:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: -3px;
+}
+
+.auth-screen {
+  position: relative;
+  display: grid;
+  min-height: 100dvh;
+  overflow: hidden;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 18% 12%, rgb(37 99 235 / 12%), transparent 25rem),
+    linear-gradient(145deg, #edf3fa, #f8fafc 48%, #e8f0f8);
+  isolation: isolate;
+}
+
+.auth-screen::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: rgb(15 39 66 / 42%);
+  content: "";
+}
+
+.auth-screen--loading::before,
+.auth-screen--confirmation::before {
+  background: rgb(15 39 66 / 16%);
+}
+
+.auth-backdrop {
+  position: absolute;
+  z-index: -2;
+  inset: clamp(1rem, 4vw, 3rem);
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 1.5rem;
+  background: rgb(255 255 255 / 78%);
+  box-shadow: var(--shadow-md);
+  filter: blur(2px);
+  opacity: 0.82;
+  transform: scale(0.99);
+}
+
+.auth-backdrop__header {
+  display: flex;
+  min-height: 4.75rem;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: #ffffff;
+}
+
+.auth-backdrop__brand {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  background: var(--color-primary);
+  font-weight: 800;
+}
+
+.auth-backdrop__header span:not(.auth-backdrop__brand),
+.auth-backdrop__content span {
+  display: block;
+  height: 0.75rem;
+  border-radius: 999px;
+  background: #dbe6f3;
+}
+
+.auth-backdrop__header span:nth-child(2) {
+  width: 7rem;
+}
+
+.auth-backdrop__header span:nth-child(3) {
+  width: 5rem;
+  margin-left: auto;
+}
+
+.auth-backdrop__content {
+  display: grid;
+  max-width: 55rem;
+  gap: 1.25rem;
+  padding: clamp(3rem, 8vw, 7rem);
+}
+
+.auth-backdrop__content span:nth-child(1) {
+  width: min(28rem, 80%);
+  height: 2.75rem;
+}
+
+.auth-backdrop__content span:nth-child(2) {
+  width: min(40rem, 92%);
+}
+
+.auth-backdrop__content span:nth-child(3) {
+  width: min(34rem, 74%);
+}
+
+.sign-in-dialog {
+  width: min(100%, 27.5rem);
+  overflow: hidden;
+  border: 1px solid rgb(138 136 134 / 34%);
+  border-radius: 0.75rem;
+  background: #ffffff;
+  box-shadow:
+    0 1.5rem 4rem rgb(15 23 42 / 26%),
+    0 0.25rem 0.75rem rgb(15 23 42 / 12%);
+  animation: dialog-enter 220ms ease-out both;
+}
+
+.sign-in-dialog--confirmation {
+  width: min(100%, 31rem);
+}
+
+.sign-in-dialog__provider {
+  display: flex;
+  min-height: 4.25rem;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid #edebe9;
+  color: #201f1e;
+  background: #faf9f8;
+  font-family: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.microsoft-mark {
+  width: 1.45rem;
+  height: 1.45rem;
+  flex: 0 0 auto;
+}
+
+.sign-in-dialog__content {
+  padding: clamp(1.75rem, 6vw, 2.5rem);
+}
+
+.sign-in-dialog__eyebrow {
+  margin-bottom: 0.6rem;
+  color: #605e5c;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.065em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.sign-in-dialog h1 {
+  margin-bottom: 0.9rem;
+  color: #201f1e;
+  font-family: "Segoe UI Variable Display", "Segoe UI", sans-serif;
+  font-size: clamp(1.75rem, 7vw, 2.1rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+}
+
+.sign-in-dialog p {
+  color: #4b5563;
+  line-height: 1.55;
+}
+
+.microsoft-sign-in-button {
+  display: flex;
+  width: 100%;
+  min-height: 3.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #8a8886;
+  border-radius: 0.2rem;
+  color: #201f1e;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(0 0 0 / 8%);
+  font-family: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition:
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.microsoft-sign-in-button:hover:not(:disabled) {
+  border-color: #605e5c;
+  background: #f3f2f1;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 12%);
+}
+
+.microsoft-sign-in-button:focus-visible {
+  outline: 3px solid #005a9e;
+  outline-offset: 3px;
+}
+
+.sign-in-dialog__security {
+  margin: 1rem 0 0;
+  color: #605e5c !important;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.sign-in-dialog__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 3.25rem;
+  padding: 0.75rem 1rem;
+  border-top: 1px solid #edebe9;
+  color: #605e5c;
+  background: #f5f5f5;
+  font-family: "Segoe UI Variable Text", "Segoe UI", sans-serif;
+  font-size: 0.72rem;
+}
+
+.auth-alert {
+  margin: 1rem 0 0;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid #e9a7a2;
+  border-radius: 0.25rem;
+  color: #a4262c;
+  background: #fde7e9;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #323130;
+  font-weight: 600;
+}
+
+.auth-screen--loading .auth-loading {
+  min-height: 6rem;
+  padding: 1.5rem 2rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: var(--shadow-md);
+}
+
+.auth-loading__spinner,
+.button-spinner {
+  display: inline-block;
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: 0 0 auto;
+  border: 2px solid #c8c6c4;
+  border-top-color: #0078d4;
+  border-radius: 50%;
+  animation: spinner-rotate 700ms linear infinite;
+}
+
+.account-preview {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1.5rem 0 1rem;
+  padding: 1rem;
+  border: 1px solid #edebe9;
+  border-radius: 0.35rem;
+  background: #faf9f8;
+}
+
+.account-preview__label,
+.auth-field > span {
+  color: #605e5c;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.auth-field {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.auth-field input {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid #8a8886;
+  border-radius: 0.2rem;
+  color: #201f1e;
+  background: #ffffff;
+  font: inherit;
+}
+
+.auth-field input:focus-visible {
+  border-color: #005a9e;
+  outline: 2px solid #005a9e;
+  outline-offset: 1px;
+}
+
+.auth-menu {
+  position: relative;
+}
+
+.auth-menu__trigger {
+  display: inline-flex;
+  max-width: 15rem;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.25rem 0.55rem 0.25rem 0.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: var(--color-text);
+  background: #ffffff;
+  transition:
+    border-color var(--transition-fast),
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.auth-menu__trigger:hover {
+  border-color: #9eb6d7;
+  background: var(--color-primary-soft);
+}
+
+.auth-menu__trigger:focus-visible,
+.auth-menu__item:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.auth-menu__avatar {
+  display: grid;
+  width: 2.1rem;
+  height: 2.1rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: #ffffff;
+  background: var(--color-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.auth-menu__name {
+  overflow: hidden;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-menu__popover {
+  position: absolute;
+  z-index: 100;
+  top: calc(100% + 0.55rem);
+  right: 0;
+  width: 17rem;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.auth-menu__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.auth-menu__identity > span:last-child {
+  display: grid;
+  min-width: 0;
+  gap: 0.15rem;
+}
+
+.auth-menu__identity strong {
+  overflow: hidden;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-menu__identity small {
+  color: var(--color-text-muted);
+}
+
+.auth-menu__item {
+  display: flex;
+  width: 100%;
+  min-height: 2.75rem;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  border: 0;
+  color: var(--color-text);
+  background: transparent;
+  text-align: left;
+  transition: background-color var(--transition-fast);
+}
+
+.auth-menu__item:hover {
+  background: var(--color-surface-subtle);
+}
+
+@keyframes dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(0.5rem) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .page-container {
@@ -1272,11 +1706,20 @@ select:focus-visible,
   }
 
   .primary-nav {
-    width: 100%;
+    min-width: 0;
+    flex: 1;
   }
 
   .primary-nav__link {
     flex: 1;
+  }
+
+  .site-header__actions {
+    width: 100%;
+  }
+
+  .auth-menu__trigger {
+    max-width: 11rem;
   }
 
   .hero,
@@ -1359,6 +1802,33 @@ select:focus-visible,
     font-size: 0.75rem;
   }
 
+  .auth-screen {
+    padding: 0.75rem;
+  }
+
+  .sign-in-dialog__provider {
+    padding-inline: 1.25rem;
+  }
+
+  .sign-in-dialog__content {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .site-header__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .auth-menu__trigger {
+    width: 100%;
+    max-width: none;
+    justify-content: center;
+  }
+
+  .auth-menu__popover {
+    width: min(17rem, calc(100vw - 1.25rem));
+  }
+
   .hero__actions,
   .hero__actions .button {
     width: 100%;
@@ -1394,6 +1864,10 @@ select:focus-visible,
   }
 
   .projects-loading__row span {
+    animation: none;
+  }
+
+  .sign-in-dialog {
     animation: none;
   }
 }

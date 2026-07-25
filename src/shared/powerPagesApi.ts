@@ -145,6 +145,11 @@ export async function powerPagesFetchResponse(
     if (response.ok) return response
 
     const error = await readError(response)
+    if (response.status === 401 && typeof window !== 'undefined') {
+      window.location.assign('/login?sessionExpired=true')
+      throw error
+    }
+
     const isExpiredToken =
       response.status === 403 &&
       error.code === WebApiErrorCode.antiForgeryTokenInvalid

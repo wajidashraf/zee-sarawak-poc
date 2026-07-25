@@ -1,11 +1,17 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { useSessionKeepAlive } from '../../hooks/useSessionKeepAlive'
 import { Footer } from './Footer'
 import { Header } from './Header'
 
 export function AppLayout() {
   const location = useLocation()
   const mainContentRef = useRef<HTMLElement>(null)
+  const handleSessionExpired = useCallback(() => {
+    window.location.assign('/login?sessionExpired=true')
+  }, [])
+
+  useSessionKeepAlive({ onSessionExpired: handleSessionExpired })
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })

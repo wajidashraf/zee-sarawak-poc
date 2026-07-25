@@ -44,6 +44,11 @@ secured, and promoted using Power Pages and Power Platform tooling.
   least-privilege field allowlist and must be reviewed before production.
 - Project records are available only to the existing Authenticated Users web
   role. No project-data permission is attached to Anonymous Users.
+- Microsoft Entra ID (workforce, the Power Pages parent tenant provider) is the
+  confirmed authentication provider for the current internal portal. The SPA
+  does not handle credentials or client tokens; it posts a Power Pages
+  anti-forgery-protected external-login form and lets Microsoft complete
+  authentication.
 - The project table has Read, Create, and Append To permissions. Contractor and
   Project Location have Read and Append permissions because they are lookup
   targets during project creation. The other three portal tables are read-only.
@@ -56,6 +61,20 @@ secured, and promoted using Power Pages and Power Platform tooling.
   (`/projects/new`), and Project Details (`/projects/:projectId`) routes.
 - `AppLayout` supplies a shared `Header` and `Footer` to every route.
 - The header contains Home and Projects navigation with active-page states.
+- Anonymous users are blocked by a reusable `RequireAuth` route gate before the
+  shared application shell or data pages mount. They see a responsive,
+  Microsoft-style sign-in modal with one `Sign in with Microsoft` action.
+- Signed-in users see an initials-based account menu in the shared header with
+  their Power Pages display name and a server-managed sign-out action.
+- Typed authentication support reads
+  `window.Microsoft.Dynamic365.Portal.User`, derives the workforce provider
+  identifier from the runtime tenant, validates same-origin return URLs,
+  handles anti-forgery tokens, keeps active sessions warm, redirects Web API
+  401 responses through the SPA sign-in experience, and includes deterministic
+  signed-in/signed-out localhost mocks.
+- A durable `Code-Site-Shell-Header` web template redirects server auth
+  callback, failure, and legacy sign-in routes into SPA routes. First-time
+  external-account confirmation has a dedicated SPA page.
 - Home contains the initial portal introduction. Projects now reads
   `wa_project` records through the Power Pages Web API and provides search,
   Health, Project Type, and Delivery filters; URL-persisted filter state;
@@ -91,8 +110,10 @@ secured, and promoted using Power Pages and Power Platform tooling.
   Location. The shared client handles mutation anti-forgery tokens, safe
   errors, retries, cancellation, formatted values, explicit `$select`, count,
   and next-link pagination.
-- No Dataverse schema changes, authentication-provider changes, Power Automate
-  flow, server logic, or SEO configuration were made in this milestone.
+- No Dataverse schema changes, Power Automate flow, server logic, or SEO
+  configuration were made in this milestone. The already-enabled Microsoft
+  Entra ID provider was surfaced in the SPA; no provider secret, client ID, or
+  tenant ID was stored in source.
 - The first Power Pages code-site upload completed successfully in the
   development environment as `sarawak-poc`.
 - Development environment:
@@ -158,6 +179,23 @@ secured, and promoted using Power Pages and Power Platform tooling.
   failed`, so activation and the live URL remain unverified. No activation or
   site-cache restart was performed. Runtime Web API behavior remains untested
   until a live URL is available.
+- Authentication metadata now sets
+  `Authentication/Registration/ProfileRedirectEnabled = false` and adds
+  workforce Entra claims mappings for first sign-in and each later sign-in:
+  `firstname=given_name,lastname=family_name,emailaddress1=upn`.
+- Local authentication remains enabled in the downloaded Power Pages metadata
+  but isn't surfaced by the SPA. It was preserved because the user asked to add
+  the existing Entra provider to the application; disabling an existing
+  provider is a separate configuration decision.
+- The auth milestone passes lint, production build, and Playwright + axe checks
+  across Home, Projects, Create Project, Project Details, and the anonymous
+  sign-in gate at 375px portrait, 812px landscape, 768px tablet, 1024px
+  desktop, and 1440px desktop. All automated cases report zero axe violations;
+  initial focus, 44px targets, reduced motion, protected-shell non-rendering,
+  titles, landmarks, and horizontal overflow are checked.
+- The durable auth configuration report is
+  `docs/auth-setup-report.html`. Deployment and real Entra sign-in testing have
+  not occurred yet and remain behind the confirmed-environment deployment gate.
 
 ## Official Power Pages SPA model
 
@@ -221,9 +259,9 @@ connection strings in this file.
    the confirmed schema, and obtain approval first.
 8. Integrate Web APIs with typed services, anti-forgery-token handling, error
    handling, and least-privilege table permissions and web roles.
-9. Add authentication appropriate to the audience. Microsoft Entra ID is the
-   likely choice for internal/B2B users; Microsoft Entra External ID is the
-   likely choice for customer-facing registration. This remains undecided.
+9. Use the confirmed parent-tenant Microsoft Entra ID provider for internal
+   access. Treat any future move to customer self-service registration or
+   Entra External ID as a separate approved identity architecture change.
 10. Run linting, TypeScript checks, production builds, route verification, and
     WCAG 2.2 AA accessibility checks. Fix all critical and serious axe findings.
 11. Review the full local site with the user before any deployment.
@@ -296,8 +334,8 @@ existing active site.
 - Flow recipients, transitions, idempotency strategy, cadence, and channel
 - Development, test, and production environments, domain, and release path
 
-Do not start Dataverse schema creation, permission creation, authentication
-configuration, deployment, activation, or production changes until the relevant
+Do not start Dataverse schema creation, further permission or identity-provider
+changes, deployment, activation, or production changes until the relevant
 requirements and target environment are confirmed.
 
 ## Source references reviewed
@@ -310,10 +348,15 @@ requirements and target environment are confirmed.
   overview](https://learn.microsoft.com/en-us/power-pages/configure/web-api-overview)
 - Microsoft Learn: [Power Pages
   security](https://learn.microsoft.com/en-us/power-pages/security/power-pages-security)
+- Hack the Platform: [Power Pages & SPA (Part 2): Adding Authentication with
+  Microsoft Entra ID](https://hacktheplatform.dev/blog/powerpages-spa-authentication-part-2)
 - Microsoft Learn: [Configure notes as
   attachments](https://learn.microsoft.com/en-us/power-pages/configure/configure-notes)
 - Local Power Pages plugin skill:
   `power-pages@power-platform-skills` → `power-pages:create-site`
+
+- Local Power Pages authentication skill:
+  `power-pages@power-platform-skills` / `power-pages:setup-auth`
 
 ## Decision log
 
@@ -383,3 +426,17 @@ requirements and target environment are confirmed.
   upload events with no errors. The website record was verified through
   `pac pages list`; activation status and live runtime testing remain pending
   because the Websites API activation check failed.
+- 2026-07-26: The user confirmed Microsoft Entra ID is enabled and approved
+  adding authentication to the SPA. The implementation uses Power Pages
+  server-side session cookies and external-login form POSTs, never captures
+  credentials, and gates the entire React app for anonymous users.
+- 2026-07-26: A reusable Microsoft-style sign-in modal, signed-in account menu,
+  typed auth/session service, role utilities, session keepalive, first-time
+  external account confirmation page, and server-to-SPA auth redirect template
+  were added. `ProfileRedirectEnabled` was corrected to `false`, and workforce
+  Entra contact claim mappings were added.
+- 2026-07-26: Auth-specific local validation passed lint, production build, and
+  25 responsive Playwright + axe scenarios with zero accessibility violations.
+  The implementation was visually reviewed at mobile and wide-desktop sizes.
+  Deployment and live Entra runtime validation remain pending explicit
+  approval.
