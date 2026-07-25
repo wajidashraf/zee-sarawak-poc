@@ -205,6 +205,10 @@ secured, and promoted using Power Pages and Power Platform tooling.
   plugin activation-status check still returns `Websites API call failed`, so
   the live URL and real Entra sign-in behavior remain unverified. No activation
   or site-cache restart was performed.
+- The complete local Git history is published to
+  `https://github.com/wajidashraf/zee-sarawak-poc.git`. Local `master` tracks
+  `origin/master`. The user explicitly approved publishing the full repository,
+  including environment-specific Power Pages and Dataverse metadata.
 
 ## Official Power Pages SPA model
 
@@ -454,3 +458,7 @@ requirements and target environment are confirmed.
   upload events without errors. The website record remains present, but the
   activation-status API still fails, so no live URL, runtime Entra sign-in
   test, activation, or cache restart was completed.
+- 2026-07-26: The user explicitly authorized publishing the full repository and
+  history, including environment-specific Power Pages and Dataverse metadata.
+  GitHub repository `wajidashraf/zee-sarawak-poc` was configured as `origin`,
+  and local `master` was pushed and set to track `origin/master`.
