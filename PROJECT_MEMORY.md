@@ -194,8 +194,17 @@ secured, and promoted using Power Pages and Power Platform tooling.
   initial focus, 44px targets, reduced motion, protected-shell non-rendering,
   titles, landmarks, and horizontal overflow are checked.
 - The durable auth configuration report is
-  `docs/auth-setup-report.html`. Deployment and real Entra sign-in testing have
-  not occurred yet and remain behind the confirmed-environment deployment gate.
+  `docs/auth-setup-report.html`.
+- The authentication milestone was deployed successfully to the confirmed
+  `sarawak-poc` website in `DevEnv` on 2026-07-26. PAC processed 161 records
+  across 48 entities and completed all 52 upload events without errors. The
+  upload included the compiled SPA, Entra sign-in experience, claims mappings,
+  and server-to-SPA authentication redirects.
+- `pac pages list` confirmed website record
+  `88ce7959-af6b-4fc6-bd56-1cf3424fc7f1` after the authentication upload. The
+  plugin activation-status check still returns `Websites API call failed`, so
+  the live URL and real Entra sign-in behavior remain unverified. No activation
+  or site-cache restart was performed.
 
 ## Official Power Pages SPA model
 
@@ -438,5 +447,10 @@ requirements and target environment are confirmed.
 - 2026-07-26: Auth-specific local validation passed lint, production build, and
   25 responsive Playwright + axe scenarios with zero accessibility violations.
   The implementation was visually reviewed at mobile and wide-desktop sizes.
-  Deployment and live Entra runtime validation remain pending explicit
-  approval.
+  Deployment and live Entra runtime validation remained pending explicit
+  approval at that milestone.
+- 2026-07-26: Commit `c8815b8` was deployed successfully to `sarawak-poc` in
+  `DevEnv`. PAC processed 161 records across 48 entities and completed all 52
+  upload events without errors. The website record remains present, but the
+  activation-status API still fails, so no live URL, runtime Entra sign-in
+  test, activation, or cache restart was completed.
