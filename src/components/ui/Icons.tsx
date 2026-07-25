@@ -103,6 +103,61 @@ export function AlertIcon(props: IconProps) {
   )
 }
 
+export function PortfolioIcon(props: IconProps) {
+  return (
+    <svg {...commonProps} {...props}>
+      <path
+        d="M4 7.5h16v11H4v-11Zm4-3h8l1.5 3h-11l1.5-3Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="1.7"
+      />
+      <path
+        d="M8 12h8M8 15h5"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1.7"
+      />
+    </svg>
+  )
+}
+
+export function BudgetIcon(props: IconProps) {
+  return (
+    <svg {...commonProps} {...props}>
+      <rect
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="1.7"
+        width="18"
+        x="3"
+        y="5"
+      />
+      <path
+        d="M7 9.5h.01M17 14.5h.01"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+      <circle cx="12" cy="12" r="2.4" stroke="currentColor" strokeWidth="1.7" />
+    </svg>
+  )
+}
+
+export function ProgressIcon(props: IconProps) {
+  return (
+    <svg {...commonProps} {...props}>
+      <path
+        d="M4 18V9m5 9V5m5 13v-6m5 6V7"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  )
+}
+
 export function SortIcon(props: IconProps) {
   return (
     <svg {...commonProps} {...props}>
