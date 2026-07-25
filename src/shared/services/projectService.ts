@@ -32,6 +32,8 @@ const PROJECT_SELECT = [
 
 const GUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const MAX_PAGE_SIZE = 100
+const MAX_PAGES = 20
 
 export interface ListProjectsParams {
   pageSize?: number
@@ -66,6 +68,47 @@ export async function listProjects({
     items: (response?.value ?? []).map(mapProjectEntity),
     totalCount: response?.['@odata.count'] ?? response?.value.length ?? 0,
     nextLink: response?.['@odata.nextLink'],
+  }
+}
+
+export async function listAllProjects(
+  signal?: AbortSignal,
+): Promise<PaginatedResult<Project>> {
+  const items: Project[] = []
+  const visitedUrls = new Set<string>()
+  let totalCount: number | undefined
+  let nextLink: string | undefined
+  let pagesRead = 0
+
+  do {
+    if (nextLink && visitedUrls.has(nextLink)) {
+      throw new Error(
+        'Projects could not be loaded because the server returned a repeated page link.',
+      )
+    }
+
+    if (nextLink) visitedUrls.add(nextLink)
+    const result = await listProjects({
+      pageSize: MAX_PAGE_SIZE,
+      nextLink,
+      signal,
+    })
+
+    items.push(...result.items)
+    totalCount ??= result.totalCount
+    nextLink = result.nextLink
+    pagesRead += 1
+  } while (nextLink && pagesRead < MAX_PAGES)
+
+  if (nextLink) {
+    throw new Error(
+      `Projects exceeded the supported ${MAX_PAGES}-page dashboard limit.`,
+    )
+  }
+
+  return {
+    items,
+    totalCount: totalCount ?? items.length,
   }
 }
 

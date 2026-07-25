@@ -10,8 +10,15 @@ import {
   type ProjectLocationEntity,
 } from '../../types/projectLocation'
 
-const PROJECT_LOCATION_SELECT =
-  'wa_projectlocationid,wa_locationname'
+const PROJECT_LOCATION_SELECT = [
+  'wa_projectlocationid',
+  'wa_locationname',
+  'wa_latitude',
+  'wa_longitude',
+  'wa_sarawakdivision',
+  'wa_district',
+  'wa_siteaddress',
+].join(',')
 const MAX_PAGE_SIZE = 100
 const MAX_PAGES = 20
 
@@ -42,7 +49,7 @@ export async function listProjectLocations(
         {
           signal,
           headers: {
-            Prefer: `odata.maxpagesize=${MAX_PAGE_SIZE}`,
+            Prefer: `odata.include-annotations="OData.Community.Display.V1.FormattedValue",odata.maxpagesize=${MAX_PAGE_SIZE}`,
           },
         },
       )

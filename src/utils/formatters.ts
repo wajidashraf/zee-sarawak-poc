@@ -10,8 +10,19 @@ const dateFormatter = new Intl.DateTimeFormat('en-MY', {
   year: 'numeric',
 })
 
+const compactCurrencyFormatter = new Intl.NumberFormat('en-MY', {
+  style: 'currency',
+  currency: 'MYR',
+  notation: 'compact',
+  maximumFractionDigits: 1,
+})
+
 export function formatCurrency(value: number | null | undefined) {
   return value == null ? 'Not set' : currencyFormatter.format(value)
+}
+
+export function formatCompactCurrency(value: number | null | undefined) {
+  return value == null ? 'Not set' : compactCurrencyFormatter.format(value)
 }
 
 export function formatDate(value: string | null | undefined) {
