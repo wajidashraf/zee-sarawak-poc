@@ -43,9 +43,18 @@ secured, and promoted using Power Pages and Power Platform tooling.
 
 - The original Vite demonstration page and its unused starter assets were
   removed.
-- `src/App.tsx` currently renders only a centered `Welcome` heading.
-- `src/index.css` contains only the minimal page-centering styles.
-- The most recent `npm run build` and `npm run lint` both passed.
+- React Router now provides Home (`/`) and Projects (`/projects`) routes.
+- `AppLayout` supplies a shared `Header` and `Footer` to every route.
+- The header contains Home and Projects navigation with active-page states.
+- Home contains the initial portal introduction and Projects contains an honest
+  Dataverse-not-connected empty state.
+- Shared semantic design tokens and responsive styles are in `src/index.css`.
+- The most recent `npm run lint`, `npm run build`, and `npm run test:ui` passed.
+- Browser validation covers both routes at 1280px desktop and 375px mobile. It
+  verifies shared landmarks, active navigation, 44px navigation targets,
+  horizontal overflow, document titles, headings, and WCAG 2.2 AA with axe.
+- Axe reported zero violations on both routes at both viewports. One automated
+  check remains incomplete on each run and requires normal manual review.
 - Dependencies are installed locally and a `dist/` build exists.
 - Python 3.14.6 and pip 26.1.2 are installed for the current Windows user.
   Their directories are configured in the user PATH; terminals and Codex
@@ -61,15 +70,22 @@ secured, and promoted using Power Pages and Power Platform tooling.
   No design system has been persisted because user approval is still required.
   Its generated "Exaggerated Minimalism" style was rejected as a poor fit for
   dense operational screens.
-- No business pages, router, data model, authentication, Web API integration,
-  Power Automate flow, server logic, SEO configuration, or tests exist yet.
+- No Dataverse data model changes, authentication, Web API integration, Power
+  Automate flow, server logic, or SEO configuration exist yet.
 - The business brief has been reviewed and durable development instructions
   now define the architecture, routes, source structure, components, phased
   delivery, data rules, security gates, UX standard, testing, and deployment
   gates.
 - No `powerpages.config.json` exists yet.
 - No `.powerpages-site/` deployment artifacts exist yet.
-- The project directory is not currently a Git repository.
+- The project directory is a local Git repository. Repository-local commit
+  identity is `Codex <codex@localhost>`; global Git configuration was not
+  changed.
+- React Router DOM 6.30.4 is pinned for client-side routing. `npm audit`
+  currently reports two moderate React Router advisories and no critical or
+  high findings. The app uses only fixed internal route destinations and no
+  SSR/hydration APIs, reducing exposure, but the advisories must be rechecked
+  before deployment and upgraded when a suitable stable release is available.
 - No target Power Platform environment, site ID, site URL, or deployment
   approval has been recorded.
 
@@ -259,3 +275,13 @@ requirements and target environment are confirmed.
   lookups. Display-name or email matching in browser code is prohibited.
 - 2026-07-26: The six named Dataverse tables were accepted as existing inputs,
   but their metadata and choice values remain unverified.
+- 2026-07-26: The local Git repository was initialized with an attributed
+  baseline commit.
+- 2026-07-26: Reusable `Header`, `Footer`, and `AppLayout` components were added.
+  Home and Projects are the first two React Router pages, and the shared header
+  exposes both as active-state navigation items.
+- 2026-07-26: The first implementation applies the provisional professional
+  blue/green UI direction through semantic tokens without persisting a final
+  UI/UX Pro Max design system.
+- 2026-07-26: Local Playwright and axe validation was added for the two routes;
+  desktop and mobile checks pass with zero axe violations.
